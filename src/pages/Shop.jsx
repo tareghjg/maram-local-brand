@@ -2,7 +2,7 @@ import "./Shop.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const API_URL = `${import.meta.env.VITE_API_URL || ""}/api/products`;
+const API_URL = "/api/products";
 
 const categories = [
   "All",

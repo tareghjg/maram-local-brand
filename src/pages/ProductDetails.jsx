@@ -2,7 +2,7 @@ import "./ProductDetails.css";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const API_URL = `${import.meta.env.VITE_API_URL || ""}/api/products`;
+const API_URL = "/api/products";
 
 function ProductDetails({
   language,

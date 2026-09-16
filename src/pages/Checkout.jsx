@@ -2,7 +2,7 @@ import "./Checkout.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const API_URL = `${import.meta.env.VITE_API_URL || ""}/api/orders`;
+const API_URL = "/api/orders";
 
 const shippingRates = {
   Cairo: 60,
