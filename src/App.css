@@ -21,6 +21,88 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.promo-notification {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(330px, calc(100vw - 32px));
+  padding: 11px 12px 11px 15px;
+  border: 1px solid rgba(164, 134, 80, 0.3);
+  border-radius: 14px;
+  background: rgba(255, 253, 249, 0.96);
+  box-shadow: 0 16px 38px rgba(38, 28, 19, 0.16);
+  backdrop-filter: blur(12px);
+  animation: promoNotificationIn 0.55s ease both;
+}
+
+.promo-notification-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #201d1a;
+  text-decoration: none;
+}
+
+.promo-notification-dot {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #a48650;
+  box-shadow: 0 0 0 5px rgba(164, 134, 80, 0.12);
+}
+
+.promo-notification-link strong,
+.promo-notification-link small {
+  display: block;
+}
+
+.promo-notification-link strong {
+  font-family: "Cairo", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.promo-notification-link small {
+  margin-top: 2px;
+  color: #82786d;
+  font-size: 11px;
+}
+
+.promo-notification-close {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #82786d;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.promo-notification-close:hover {
+  background: #f0eae1;
+  color: #201d1a;
+}
+
+@keyframes promoNotificationIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ADMIN LOGIN */
 
 .admin-login-page {

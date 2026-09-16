@@ -324,6 +324,132 @@
   letter-spacing: 0.5px;
 }
 
+.about-credit {
+  position: relative;
+  max-width: 680px;
+  margin: 72px auto 0;
+  padding: 42px 30px 38px;
+  overflow: hidden;
+  border: 1px solid rgba(164, 134, 80, 0.2);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(240, 234, 225, 0.72));
+  box-shadow: 0 22px 48px rgba(35, 27, 20, 0.07);
+  text-align: center;
+  animation: creditReveal 0.8s ease both;
+}
+
+.about-credit::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  width: 64%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #a48650, transparent);
+}
+
+.about-credit-label {
+  display: block;
+  color: #a48650;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.about-credit h3 {
+  margin: 12px 0 8px;
+  color: #201d1a;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(25px, 4vw, 38px);
+  font-weight: 500;
+}
+
+.about-credit p {
+  max-width: 500px;
+  margin: 0 auto 24px;
+  color: #81786d;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.about-credit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px;
+  border: 1px solid rgba(164, 134, 80, 0.28);
+  border-radius: 999px;
+  color: #201d1a;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.about-credit-link span {
+  color: #81786d;
+  font-size: 12px;
+}
+
+.about-credit-link strong {
+  color: #a48650;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.about-credit-link:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.about-credit-contact {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  margin-top: 20px;
+}
+
+.about-credit-contact a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(164, 134, 80, 0.28);
+  border-radius: 50%;
+  color: #201d1a;
+  text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.about-credit-contact a:hover {
+  color: #a48650;
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.contact-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+@keyframes creditReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .about-page.arabic .about-navbar,
 .about-page.arabic .about-content,
 .about-page.arabic .about-hero,
@@ -352,6 +478,15 @@
 .about-page.arabic .about-cta p {
   font-size: 18px;
   line-height: 2;
+}
+
+.about-page.arabic .about-credit h3 {
+  font-family: "Cairo", sans-serif;
+  font-weight: 700;
+}
+
+.about-page.arabic .about-credit p {
+  font-size: 16px;
 }
 
 .about-page.arabic .gallery-card figcaption {

@@ -257,14 +257,52 @@ function Home({ language, setLanguage }) {
                 : "SHOP COLLECTION"}
             </Link>
 
-            <button className="secondary-btn">
+            <Link to="/about" className="secondary-btn">
               {isArabic
                 ? "اكتشفي المزيد"
                 : "DISCOVER US"}
-            </button>
+            </Link>
           </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+function PromoNotification({ language }) {
+  const [isVisible, setIsVisible] = useState(true);
+  const isArabic = language === "ar";
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <div className="promo-notification" role="status">
+      <a
+        href="https://wa.me/201065870208"
+        target="_blank"
+        rel="noreferrer"
+        className="promo-notification-link"
+      >
+        <span className="promo-notification-dot" />
+        <span>
+          <strong>
+            {isArabic ? "صمّم موقعك" : "Web, Elevated"}
+          </strong>
+          <small>
+            {isArabic ? "مع RIOT.OSI" : "by RIOT.OSI"}
+          </small>
+        </span>
+      </a>
+      <button
+        type="button"
+        className="promo-notification-close"
+        onClick={() => setIsVisible(false)}
+        aria-label={isArabic ? "إغلاق الإعلان" : "Close notification"}
+      >
+        ×
+      </button>
     </div>
   );
 }
@@ -380,6 +418,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <PromoNotification language={language} />
       <Routes>
         <Route
           path="/"

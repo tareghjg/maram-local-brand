@@ -162,6 +162,51 @@ function About({ language, setLanguage }) {
           <p>{isArabic ? "تجربي أسلوبًا جديدًا" : "Discover a new way to dress"}</p>
           <Link to="/shop">{isArabic ? "تسوق الآن" : "Shop now"}</Link>
         </section>
+
+        <footer className="about-credit">
+          <span className="about-credit-label">
+            {isArabic ? "خدمات التصميم والتطوير" : "Modern design & development"}
+          </span>
+          <h3>{isArabic ? "خلّي فكرتك تظهر بشكل مختلف" : "Bring your idea to life"}</h3>
+          <p>
+            {isArabic
+              ? "لو عندك مشروع أو فكرة، هنصمملك موقع عصري وسريع بتفاصيل مميزة وحركات تخلي شغلك يلفت الانتباه."
+              : "Have a project or idea? We create modern, fast websites with standout details and motion that make your work get noticed."}
+          </p>
+          <a
+            className="about-credit-link"
+            href="https://www.instagram.com/tarekhus72?stkn=dWJlZjB6MHd3Z2Zx&utm_source=qr"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span>{isArabic ? "بواسطة" : "Created by"}</span>
+            <strong>RIOT.OSI</strong>
+          </a>
+          <div className="about-credit-contact">
+            <a
+              href="https://wa.me/201065870208"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Contact RIOT.OSI on WhatsApp"
+              title="WhatsApp"
+            >
+              <svg className="contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z" />
+                <path d="M8.7 8.2c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.6 1.5c.1.3.1.5-.1.7l-.5.6c.6 1.1 1.5 1.9 2.6 2.4l.5-.6c.2-.2.4-.3.7-.2l1.5.7c.3.1.4.3.4.6v.5c0 .3-.1.5-.4.7-.4.3-1 .4-1.5.3-2.8-.6-5.2-2.9-5.8-5.7-.1-.5 0-1.1.3-1.5Z" />
+              </svg>
+            </a>
+            <a
+              href="tel:01065870208"
+              aria-label="Call RIOT.OSI"
+              title="Call"
+            >
+              <svg className="contact-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.6 3.5 9 3l2 4.5-1.7 1.6a14.4 14.4 0 0 0 5.6 5.6l1.6-1.7 4.5 2-.5 2.4c-.2.8-.9 1.4-1.7 1.4C11.2 18.8 5.2 12.8 5.2 5.2c0-.8.6-1.5 1.4-1.7Z" />
+                <path d="M15.5 3.5a5 5 0 0 1 5 5M15.5 6.5a2 2 0 0 1 2 2" />
+              </svg>
+            </a>
+          </div>
+        </footer>
       </main>
     </div>
   );
