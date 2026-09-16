@@ -8,6 +8,12 @@ const orderRoutes = require("../server/routes/orderRoutes.js");
 const productRoutes = require("../server/routes/productRoutes.js");
 const uploadRoutes = require("../server/routes/uploadRoutes.js");
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 const app = express();
 let databaseConnection;
 

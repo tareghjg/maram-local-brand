@@ -400,15 +400,61 @@ function AdminProducts() {
      UPLOAD IMAGES
   ========================= */
 
+  const prepareUploadFile = async (file) => {
+    const maxUploadSize = 3.5 * 1024 * 1024;
+
+    if (file.size <= maxUploadSize) {
+      return file;
+    }
+
+    try {
+      const image = await createImageBitmap(file);
+      const maxDimension = 1600;
+      const scale = Math.min(
+        1,
+        maxDimension / Math.max(image.width, image.height)
+      );
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(image.width * scale);
+      canvas.height = Math.round(image.height * scale);
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        return file;
+      }
+
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      image.close();
+
+      const compressedBlob = await new Promise((resolve) => {
+        canvas.toBlob(resolve, "image/jpeg", 0.82);
+      });
+
+      if (!compressedBlob || compressedBlob.size > maxUploadSize) {
+        return file;
+      }
+
+      return new File(
+        [compressedBlob],
+        `${file.name.replace(/\.[^/.]+$/, "")}.jpg`,
+        { type: "image/jpeg" }
+      );
+    } catch (compressionError) {
+      console.warn("Image compression skipped:", compressionError);
+      return file;
+    }
+  };
+
   const uploadSingleImage = async (
     file
   ) => {
+    const uploadFile = await prepareUploadFile(file);
     const formData = new FormData();
 
     formData.append(
       "images",
-      file,
-      file.name || "product-image.jpg"
+      uploadFile,
+      uploadFile.name || "product-image.jpg"
     );
 
     let response;
