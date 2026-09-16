@@ -1,5 +1,6 @@
 import "./AdminProducts.css";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/products`;
 const UPLOAD_URL = `${import.meta.env.VITE_API_URL}/api/upload`;
@@ -19,6 +20,7 @@ const emptyForm = {
 };
 
 function AdminProducts() {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const [products, setProducts] = useState([]);
@@ -42,6 +44,13 @@ function AdminProducts() {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(
+      "maram-admin-authenticated"
+    );
+    navigate("/admin/login", { replace: true });
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -945,6 +954,15 @@ function AdminProducts() {
             <span>⌂</span>
             Shipping
           </a>
+
+          <button
+            type="button"
+            className="admin-logout-button"
+            onClick={handleLogout}
+          >
+            <span>↩</span>
+            Logout
+          </button>
         </nav>
 
         <div className="admin-sidebar-footer">

@@ -1,9 +1,12 @@
 import "./App.css";
 import {
   BrowserRouter,
+  Navigate,
   Routes,
   Route,
   Link,
+  useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { useState } from "react";
 
@@ -13,6 +16,146 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import AdminOrders from "./pages/AdminOrders";
 import AdminProducts from "./pages/AdminProducts";
+
+const ADMIN_CREDENTIALS = [
+  {
+    phone: "01065870208",
+    password: "0000",
+  },
+  {
+    phone: "01062046658",
+    password: "1111",
+  },
+];
+
+function AdminLogin() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const redirectPath =
+    location.state?.from?.pathname ||
+    "/admin/orders";
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const isValid = ADMIN_CREDENTIALS.some(
+      (account) =>
+        account.phone === phone.trim() &&
+        account.password === password
+    );
+
+    if (!isValid) {
+      setError(
+        "رقم الهاتف أو كلمة المرور غير صحيحة."
+      );
+      return;
+    }
+
+    sessionStorage.setItem(
+      "maram-admin-authenticated",
+      "true"
+    );
+    navigate(redirectPath, { replace: true });
+  };
+
+  return (
+    <main className="admin-login-page" dir="rtl">
+      <div className="admin-login-panel">
+        <div className="admin-login-brand">
+          <span>MARAM</span>
+          <small>ADMIN ACCESS</small>
+        </div>
+
+        <div className="admin-login-heading">
+          <p>لوحة التحكم</p>
+          <h1>تسجيل الدخول</h1>
+          <span>
+            أدخل بياناتك للوصول إلى لوحة الإدارة
+          </span>
+        </div>
+
+        <form
+          className="admin-login-form"
+          onSubmit={handleSubmit}
+        >
+          <label htmlFor="admin-phone">
+            رقم الهاتف
+          </label>
+          <input
+            id="admin-phone"
+            type="tel"
+            inputMode="numeric"
+            autoComplete="username"
+            placeholder="01000000000"
+            value={phone}
+            onChange={(event) => {
+              setPhone(event.target.value);
+              setError("");
+            }}
+            required
+          />
+
+          <label htmlFor="admin-password">
+            كلمة المرور
+          </label>
+          <input
+            id="admin-password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="••••"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              setError("");
+            }}
+            required
+          />
+
+          {error && (
+            <p className="admin-login-error">
+              {error}
+            </p>
+          )}
+
+          <button type="submit">
+            دخول إلى لوحة التحكم
+          </button>
+        </form>
+      </div>
+
+      <div className="admin-login-visual">
+        <div>
+          <span>THE MARAM EDIT</span>
+          <h2>Quietly<br />distinctive.</h2>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function ProtectedAdminRoute({ children }) {
+  const location = useLocation();
+  const isAuthenticated =
+    sessionStorage.getItem(
+      "maram-admin-authenticated"
+    ) === "true";
+
+  if (!isAuthenticated) {
+    return (
+      <Navigate
+        to="/admin/login"
+        replace
+        state={{ from: location }}
+      />
+    );
+  }
+
+  return children;
+}
 
 function Home({ language, setLanguage }) {
   const isArabic = language === "ar";
@@ -302,16 +445,25 @@ function App() {
         />
 
         <Route
+          path="/admin/login"
+          element={<AdminLogin />}
+        />
+
+        <Route
           path="/admin/orders"
           element={
-            <AdminOrders />
+            <ProtectedAdminRoute>
+              <AdminOrders />
+            </ProtectedAdminRoute>
           }
         />
 
         <Route
           path="/admin/products"
           element={
-            <AdminProducts />
+            <ProtectedAdminRoute>
+              <AdminProducts />
+            </ProtectedAdminRoute>
           }
         />
       </Routes>

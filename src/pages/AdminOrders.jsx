@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AdminOrders.css";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/orders`;
@@ -12,6 +13,7 @@ const ORDER_STATUSES = [
 ];
 
 function AdminOrders() {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -20,6 +22,13 @@ function AdminOrders() {
     useState(null);
   const [updatingOrderId, setUpdatingOrderId] =
     useState(null);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(
+      "maram-admin-authenticated"
+    );
+    navigate("/admin/login", { replace: true });
+  };
 
   const fetchOrders = async () => {
     try {
@@ -222,6 +231,15 @@ function AdminOrders() {
             <span>⌁</span>
             Shipping
           </a>
+
+          <button
+            type="button"
+            className="admin-logout-button"
+            onClick={handleLogout}
+          >
+            <span>↩</span>
+            Logout
+          </button>
 
         </nav>
 

@@ -21,9 +21,199 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ADMIN LOGIN */
+
+.admin-login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(330px, 0.8fr) minmax(360px, 1.2fr);
+  background: #f5f1ea;
+  color: #201d1a;
+  font-family: "Cairo", Arial, sans-serif;
+}
+
+.admin-login-panel {
+  width: min(430px, calc(100% - 64px));
+  align-self: center;
+  justify-self: center;
+  padding: 46px 0;
+}
+
+.admin-login-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 74px;
+  direction: ltr;
+}
+
+.admin-login-brand span {
+  font-family: "Bodoni Moda", serif;
+  font-size: 31px;
+  letter-spacing: 5px;
+}
+
+.admin-login-brand small {
+  color: #a48650;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.admin-login-heading p {
+  margin: 0 0 10px;
+  color: #a48650;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.admin-login-heading h1 {
+  margin: 0;
+  font-family: "Bodoni Moda", serif;
+  font-size: clamp(34px, 4vw, 50px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.admin-login-heading span {
+  display: block;
+  margin-top: 13px;
+  color: #837a70;
+  font-size: 13px;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 42px;
+}
+
+.admin-login-form label {
+  margin-bottom: 8px;
+  color: #514a42;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-login-form input {
+  width: 100%;
+  height: 52px;
+  margin-bottom: 20px;
+  padding: 0 16px;
+  border: 1px solid #d8d0c5;
+  border-radius: 2px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.6);
+  color: #201d1a;
+  font: inherit;
+  direction: ltr;
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-login-form input:focus {
+  border-color: #a48650;
+  box-shadow: 0 0 0 3px rgba(164, 134, 80, 0.12);
+}
+
+.admin-login-error {
+  margin: -5px 0 16px;
+  color: #a33f35;
+  font-size: 12px;
+}
+
+.admin-login-form button {
+  height: 54px;
+  border: 0;
+  border-radius: 2px;
+  background: #201d1a;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.admin-login-form button:hover {
+  background: #a48650;
+  transform: translateY(-2px);
+}
+
+.admin-login-visual {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 70px;
+  background: linear-gradient(145deg, rgba(36, 30, 26, 0.15), rgba(36, 30, 26, 0.8)), url("/HERO.jpeg") center / cover;
+  color: #fff;
+}
+
+.admin-login-visual span {
+  color: #d4b982;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+.admin-login-visual h2 {
+  margin: 14px 0 0;
+  font-family: "Bodoni Moda", serif;
+  font-size: clamp(42px, 5vw, 78px);
+  font-weight: 400;
+  line-height: 1.05;
+  direction: ltr;
+}
+
+@media (max-width: 760px) {
+  .admin-login-page {
+    display: block;
+  }
+
+  .admin-login-panel {
+    width: min(430px, calc(100% - 44px));
+    padding: 36px 0 54px;
+  }
+
+  .admin-login-brand {
+    margin-bottom: 58px;
+  }
+
+  .admin-login-visual {
+    min-height: 280px;
+    padding: 34px 22px;
+  }
+}
+
 button,
 a {
   font-family: inherit;
+}
+
+.admin-logout-button {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 13px 12px;
+  border-radius: 7px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: left;
+}
+
+.admin-logout-button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-logout-button span {
+  width: 18px;
+  text-align: center;
+  font-size: 17px;
 }
 
 /* =========================
