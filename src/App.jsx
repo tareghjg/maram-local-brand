@@ -128,12 +128,7 @@ function AdminLogin() {
         </form>
       </div>
 
-      <div className="admin-login-visual">
-        <div>
-          <span>THE MARAM EDIT</span>
-          <h2>Quietly<br />distinctive.</h2>
-        </div>
-      </div>
+      <div className="admin-login-visual" />
     </main>
   );
 }
@@ -177,11 +172,11 @@ function Home({ language, setLanguage }) {
             {isArabic ? "المتجر" : "Shop"}
           </Link>
 
-          <a href="#collections">
+          <Link to="/shop">
             {isArabic
               ? "المجموعات"
               : "Collections"}
-          </a>
+          </Link>
 
           <Link to="/about">
             {isArabic ? "من نحن" : "About"}

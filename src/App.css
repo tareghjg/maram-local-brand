@@ -51,12 +51,15 @@ body {
   font-family: "Bodoni Moda", serif;
   font-size: 31px;
   letter-spacing: 5px;
+  color: #a48650;
 }
 
 .admin-login-brand small {
-  color: #a48650;
-  font-size: 9px;
-  letter-spacing: 2px;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #201d1a;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
 }
 
 .admin-login-heading p {
@@ -145,7 +148,7 @@ body {
   display: flex;
   align-items: flex-end;
   padding: 70px;
-  background: linear-gradient(145deg, rgba(36, 30, 26, 0.15), rgba(36, 30, 26, 0.8)), url("/HERO.jpeg") center / cover;
+  background: linear-gradient(145deg, rgba(36, 30, 26, 0.15), rgba(36, 30, 26, 0.8)), url("/LOGO.jpeg") center / cover;
   color: #fff;
 }
 
@@ -258,7 +261,7 @@ a {
   position: relative;
   color: #3c352d;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 500;
   letter-spacing: 1.5px;
   transition: 0.3s ease;
@@ -375,7 +378,7 @@ a {
       rgba(30, 25, 18, 0.08),
       rgba(30, 25, 18, 0.08)
     ),
-    url("/HERO.jpeg");
+    url("/LOGO.jpeg");
   background-size: cover;
   background-position: center;
   animation: heroImage 1.4s ease;
@@ -410,7 +413,7 @@ a {
   font-family: "Bodoni Moda", Georgia, serif;
   font-size: clamp(52px, 6vw, 90px);
   font-weight: 500;
-  line-height: 0.95;
+  line-height: 1.05;
   letter-spacing: -2px;
 }
 
@@ -581,7 +584,7 @@ a {
   }
 
   .nav-links a {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .hero-content {

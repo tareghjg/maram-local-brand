@@ -29,28 +29,30 @@ function About({ language, setLanguage }) {
 
   return (
     <div className={`about-page ${isArabic ? "arabic" : "english"}`}>
-      <header className="about-navbar">
-        <nav className="about-nav-links">
+      <header className="navbar">
+        <nav className="nav-links">
           <Link to="/">{isArabic ? "الرئيسية" : "Home"}</Link>
           <Link to="/shop">{isArabic ? "المتجر" : "Shop"}</Link>
-          <Link to="/about" className="active">
-            {isArabic ? "من نحن" : "About"}
+          <Link to="/shop">
+            {isArabic ? "المجموعات" : "Collections"}
           </Link>
+          <Link to="/about">{isArabic ? "من نحن" : "About"}</Link>
         </nav>
 
-        <Link to="/" className="about-logo">
-          <span>MARAM</span>
-          <small>local brand</small>
+        <Link to="/" className="logo about-logo">
+          <h1>MARAM</h1>
+          <span>local brand</span>
         </Link>
 
-        <div className="about-nav-actions">
+        <div className="nav-actions">
           <button
             className="language-btn"
             onClick={() => setLanguage(isArabic ? "en" : "ar")}
           >
             {isArabic ? "EN" : "AR"}
           </button>
-          <Link to="/cart" aria-label="Shopping bag">
+          <button aria-label="Wishlist">♡</button>
+          <Link to="/cart" className="cart-nav-button" aria-label="Shopping bag">
             🛍️
           </Link>
         </div>
@@ -65,6 +67,29 @@ function About({ language, setLanguage }) {
               ? "مرام هي علامة محلية تم تصميمها لتجمع بين الأناقة والراحة، مع لمسة حديثة تتماشى مع أسلوب الحياة العصري للمرأة."
               : "MARAM is a local brand crafted to balance elegance, comfort, and a modern sense of identity for the contemporary woman."}
           </p>
+        </section>
+
+        <section className="about-gallery" aria-label={isArabic ? "إطلالات مرام" : "MARAM looks"}>
+          <figure className="gallery-card gallery-card-large">
+            <img
+              src="/image-212-e1741873750452-975x1024.png"
+              alt={isArabic ? "إطلالة أزياء أنيقة" : "Elegant fashion look"}
+            />
+            <figcaption>
+              <span>{isArabic ? "إطلالة مرام" : "The MARAM look"}</span>
+              <strong>{isArabic ? "أناقة هادئة، حضور لا يُنسى" : "Quiet elegance, unforgettable presence"}</strong>
+            </figcaption>
+          </figure>
+          <figure className="gallery-card gallery-card-small">
+            <img
+              src="/3zaWgq4ZAQXlqIdaV3YKhW9yXlh5yT3W9qoSHFps.webp"
+              alt={isArabic ? "تفاصيل قماش وملابس أنيقة" : "Refined fabric and clothing details"}
+            />
+            <figcaption>
+              <span>{isArabic ? "تفاصيل تصنع الفرق" : "Details that matter"}</span>
+              <strong>{isArabic ? "مصممة لتناسب يومك" : "Made for your everyday"}</strong>
+            </figcaption>
+          </figure>
         </section>
 
         <section className="about-grid">
