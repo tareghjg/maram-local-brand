@@ -16,8 +16,7 @@ const connectDB = async () => {
       error.message
     );
 
-    // Don't kill the server if MongoDB has a temporary connection problem
-    setTimeout(connectDB, 5000);
+    throw error;
   }
 };
 

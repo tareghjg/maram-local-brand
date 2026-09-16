@@ -36,11 +36,16 @@ app.use("/api/products", productRoutes);
 app.use("/api/upload", uploadRoutes);
 
 const startServer = async () => {
-  await connectDB();
+  try {
+    await connectDB();
 
-  app.listen(PORT, HOST, () => {
-    console.log(`🚀 MARAM server is running on port ${PORT}`);
-  });
+    app.listen(PORT, HOST, () => {
+      console.log(`🚀 MARAM server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Server startup failed:", error.message);
+    process.exit(1);
+  }
 };
 
 startServer();
