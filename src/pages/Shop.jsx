@@ -36,7 +36,28 @@ function Shop({ language, setLanguage }) {
       setLoading(true);
       setError("");
 
-      const response = await fetch(API_URL);
+      let response;
+      let lastError;
+
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        try {
+          response = await fetch(API_URL);
+          if (response.ok) {
+            break;
+          }
+          lastError = new Error(`Products API returned ${response.status}.`);
+        } catch (requestError) {
+          lastError = requestError;
+        }
+
+        if (attempt < 2) {
+          await new Promise((resolve) => setTimeout(resolve, 700));
+        }
+      }
+
+      if (!response) {
+        throw lastError || new Error("Products API is unavailable.");
+      }
 
       const data = await response.json();
 
