@@ -14,6 +14,7 @@ import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import About from "./pages/About";
 import AdminOrders from "./pages/AdminOrders";
 import AdminProducts from "./pages/AdminProducts";
 
@@ -182,9 +183,9 @@ function Home({ language, setLanguage }) {
               : "Collections"}
           </a>
 
-          <a href="#about">
+          <Link to="/about">
             {isArabic ? "من نحن" : "About"}
-          </a>
+          </Link>
         </nav>
 
         <Link to="/" className="logo">
@@ -440,6 +441,16 @@ function App() {
               language={language}
               setLanguage={setLanguage}
               cart={cart}
+            />
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <About
+              language={language}
+              setLanguage={setLanguage}
             />
           }
         />

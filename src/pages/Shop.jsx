@@ -131,9 +131,9 @@ function Shop({ language, setLanguage }) {
               : "Collections"}
           </a>
 
-          <a href="/#about">
+          <Link to="/about">
             {isArabic ? "من نحن" : "About"}
-          </a>
+          </Link>
         </nav>
 
         <Link
