@@ -85,6 +85,14 @@
   margin-bottom: 34px;
 }
 
+.admin-products-welcome {
+  margin: 0 0 10px;
+  color: #201d1a;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Cairo", Arial, sans-serif;
+}
+
 .admin-products-eyebrow {
   margin: 0 0 7px;
   font-size: 10px;
@@ -169,6 +177,67 @@
   border: 1px solid #ebe7df;
   border-radius: 9px;
   padding: 24px;
+}
+
+.admin-shipping-rates-panel {
+  background: #faf7f2;
+  border: 1px solid #ece4d8;
+  border-radius: 10px;
+  padding: 18px 18px 16px;
+  margin: 0 0 20px;
+}
+
+.admin-shipping-rates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.admin-shipping-rate-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid #eee5d8;
+  border-radius: 8px;
+  padding: 10px 12px;
+  min-height: 52px;
+}
+
+.admin-shipping-rate-item span {
+  font-size: 11px;
+  color: #4a453d;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-shipping-rate-item input {
+  width: 86px;
+  border: 1px solid #e2d9cc;
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  color: #1d1b18;
+  text-align: center;
+  outline: none;
+}
+
+.admin-shipping-rate-item input:focus {
+  border-color: #9a8354;
+  box-shadow: 0 0 0 3px rgba(154, 131, 84, 0.12);
+}
+
+.admin-shipping-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.admin-shipping-actions .admin-add-product-button {
+  min-width: 180px;
 }
 
 /* TOOLBAR */
@@ -568,6 +637,10 @@
     display: block;
   }
 
+  .admin-shipping-rates-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .admin-products-sidebar {
     width: auto;
     min-height: auto;
@@ -609,6 +682,18 @@
 @media (max-width: 600px) {
   .admin-products-main {
     padding: 24px 14px 40px;
+  }
+
+  .admin-shipping-rates-panel {
+    padding: 14px;
+  }
+
+  .admin-shipping-rates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shipping-rate-item {
+    justify-content: space-between;
   }
 
   .admin-products-header h1 {

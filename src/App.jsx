@@ -22,12 +22,25 @@ const ADMIN_CREDENTIALS = [
   {
     phone: "01065870208",
     password: "0000",
+    name: "طارق",
   },
   {
     phone: "01062046658",
     password: "1111",
+    name: "بسنت",
   },
 ];
+
+const getAdminAccountByPhone = (phone) => {
+  if (!phone) return null;
+
+  return (
+    ADMIN_CREDENTIALS.find(
+      (account) =>
+        account.phone === phone.trim()
+    ) || null
+  );
+};
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -40,16 +53,20 @@ function AdminLogin() {
     location.state?.from?.pathname ||
     "/admin/orders";
 
+  const welcomeName =
+    getAdminAccountByPhone(phone)?.name || "";
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const isValid = ADMIN_CREDENTIALS.some(
-      (account) =>
-        account.phone === phone.trim() &&
-        account.password === password
-    );
+    const matchedAccount =
+      ADMIN_CREDENTIALS.find(
+        (account) =>
+          account.phone === phone.trim() &&
+          account.password === password
+      );
 
-    if (!isValid) {
+    if (!matchedAccount) {
       setError(
         "رقم الهاتف أو كلمة المرور غير صحيحة."
       );
@@ -59,6 +76,10 @@ function AdminLogin() {
     sessionStorage.setItem(
       "maram-admin-authenticated",
       "true"
+    );
+    sessionStorage.setItem(
+      "maram-admin-name",
+      matchedAccount.name
     );
     navigate(redirectPath, { replace: true });
   };
@@ -72,6 +93,11 @@ function AdminLogin() {
         </div>
 
         <div className="admin-login-heading">
+          {welcomeName && (
+            <p className="admin-login-welcome">
+              اهلا {welcomeName}
+            </p>
+          )}
           <p>لوحة التحكم</p>
           <h1>تسجيل الدخول</h1>
           <span>
@@ -280,7 +306,7 @@ function PromoNotification({ language }) {
   return (
     <div className="promo-notification" role="status">
       <a
-        href="https://wa.me/201065870208"
+        href="https://wa.me/201556465171"
         target="_blank"
         rel="noreferrer"
         className="promo-notification-link"
@@ -288,10 +314,10 @@ function PromoNotification({ language }) {
         <span className="promo-notification-dot" />
         <span>
           <strong>
-            {isArabic ? "صمّم موقعك" : "Web, Elevated"}
+            {isArabic ? "هل لديك سؤال؟" : "Need help?"}
           </strong>
           <small>
-            {isArabic ? "مع RIOT.OSI" : "by RIOT.OSI"}
+            {isArabic ? "تواصل معنا على واتساب" : "Message us on WhatsApp"}
           </small>
         </span>
       </a>

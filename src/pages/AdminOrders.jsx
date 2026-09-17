@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./AdminOrders.css";
 
 const API_URL = "/api/orders";
+const SHIPPING_API_URL = "/api/shipping";
 
 const ORDER_STATUSES = [
   "Pending",
@@ -18,17 +19,31 @@ function AdminOrders() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [shippingRates, setShippingRates] =
+    useState({});
+  const [shippingDraft, setShippingDraft] =
+    useState({});
   const [selectedOrder, setSelectedOrder] =
     useState(null);
   const [updatingOrderId, setUpdatingOrderId] =
     useState(null);
+  const [shippingSaving, setShippingSaving] =
+    useState(false);
+  const [adminName, setAdminName] = useState("");
 
   const handleLogout = () => {
     sessionStorage.removeItem(
       "maram-admin-authenticated"
     );
+    sessionStorage.removeItem("maram-admin-name");
     navigate("/admin/login", { replace: true });
   };
+
+  useEffect(() => {
+    setAdminName(
+      sessionStorage.getItem("maram-admin-name") || ""
+    );
+  }, []);
 
   const fetchOrders = async () => {
     try {
@@ -56,8 +71,33 @@ function AdminOrders() {
     }
   };
 
+  const fetchShippingRates = async () => {
+    try {
+      const response = await fetch(
+        SHIPPING_API_URL
+      );
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Failed to fetch shipping rates."
+        );
+      }
+
+      setShippingRates(data.rates || {});
+      setShippingDraft(data.rates || {});
+    } catch (err) {
+      console.error(
+        "Shipping fetch error:",
+        err
+      );
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
+    fetchShippingRates();
   }, []);
 
   const updateOrderStatus = async (
@@ -111,6 +151,46 @@ function AdminOrders() {
       );
     } finally {
       setUpdatingOrderId(null);
+    }
+  };
+
+  const updateShippingRates = async () => {
+    try {
+      setShippingSaving(true);
+      setError("");
+
+      const response = await fetch(
+        SHIPPING_API_URL,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rates: shippingDraft,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Failed to update shipping rates."
+        );
+      }
+
+      setShippingRates(data.rates || {});
+      setShippingDraft(data.rates || {});
+      setError("");
+    } catch (err) {
+      setError(
+        err.message ||
+          "Something went wrong while updating shipping rates."
+      );
+    } finally {
+      setShippingSaving(false);
     }
   };
 
@@ -227,7 +307,7 @@ function AdminOrders() {
             Products
           </a>
 
-          <a href="#">
+          <a href="#" onClick={(event) => event.preventDefault()}>
             <span>⌁</span>
             Shipping
           </a>
@@ -251,6 +331,11 @@ function AdminOrders() {
         <div className="admin-products-header">
 
           <div>
+            {adminName && (
+              <p className="admin-products-welcome">
+                اهلا {adminName}
+              </p>
+            )}
             <p className="admin-products-eyebrow">
               ORDERS
             </p>
@@ -320,6 +405,42 @@ function AdminOrders() {
 
 
         <section className="admin-products-content">
+
+          <div className="admin-products-toolbar" style={{ marginBottom: "18px" }}>
+            <div className="admin-products-count">Shipping Settings</div>
+          </div>
+
+          <div className="admin-shipping-rates-panel">
+            <div className="admin-shipping-rates-grid">
+              {Object.entries(shippingDraft).map(([governorate, value]) => (
+                <label key={governorate} className="admin-shipping-rate-item">
+                  <span>{governorate}</span>
+                  <input
+                    type="number"
+                    min="0"
+                    value={value}
+                    onChange={(event) =>
+                      setShippingDraft((current) => ({
+                        ...current,
+                        [governorate]: Number(event.target.value) || 0,
+                      }))
+                    }
+                  />
+                </label>
+              ))}
+            </div>
+
+            <div className="admin-shipping-actions">
+              <button
+                type="button"
+                className="admin-add-product-button"
+                onClick={updateShippingRates}
+                disabled={shippingSaving}
+              >
+                {shippingSaving ? "Saving..." : "Save Shipping Rates"}
+              </button>
+            </div>
+          </div>
 
           <div className="admin-products-toolbar">
 

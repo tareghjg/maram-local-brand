@@ -1,38 +1,9 @@
 import "./Checkout.css";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const API_URL = "/api/orders";
-
-const shippingRates = {
-  Cairo: 60,
-  Giza: 60,
-  Alexandria: 70,
-  Beheira: 75,
-  Gharbia: 80,
-  Dakahlia: 80,
-  Qalyubia: 70,
-  Sharqia: 80,
-  Monufia: 80,
-  KafrElSheikh: 85,
-  Damietta: 85,
-  PortSaid: 85,
-  Ismailia: 85,
-  Suez: 85,
-  Fayoum: 90,
-  BeniSuef: 90,
-  Minya: 95,
-  Assiut: 95,
-  Sohag: 100,
-  Qena: 100,
-  Luxor: 105,
-  Aswan: 110,
-  RedSea: 110,
-  Matrouh: 110,
-  NewValley: 120,
-  NorthSinai: 120,
-  SouthSinai: 120,
-};
+const SHIPPING_API_URL = "/api/shipping";
 
 const governorates = [
   {
@@ -206,6 +177,30 @@ function Checkout({
 
   const [submitError, setSubmitError] =
     useState("");
+  const [shippingRates, setShippingRates] =
+    useState({});
+
+  useEffect(() => {
+    const fetchShippingRates = async () => {
+      try {
+        const response = await fetch(
+          SHIPPING_API_URL
+        );
+        const data = await response.json();
+
+        if (response.ok && data.rates) {
+          setShippingRates(data.rates);
+        }
+      } catch (error) {
+        console.error(
+          "Failed to fetch shipping rates:",
+          error
+        );
+      }
+    };
+
+    fetchShippingRates();
+  }, []);
 
   const subtotal = cart.reduce(
     (total, item) =>
