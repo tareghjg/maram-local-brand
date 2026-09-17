@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://maram-local-brand.vercel.app/sitemap.xml
