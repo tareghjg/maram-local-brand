@@ -23,6 +23,12 @@ function AdminOrders() {
     useState({});
   const [shippingDraft, setShippingDraft] =
     useState({});
+  const [selectedGovernorate, setSelectedGovernorate] =
+    useState("");
+  const [shippingDirty, setShippingDirty] =
+    useState(false);
+  const [shippingSaveMessage, setShippingSaveMessage] =
+    useState("");
   const [selectedOrder, setSelectedOrder] =
     useState(null);
   const [updatingOrderId, setUpdatingOrderId] =
@@ -85,8 +91,14 @@ function AdminOrders() {
         );
       }
 
-      setShippingRates(data.rates || {});
-      setShippingDraft(data.rates || {});
+      const rates = data.rates || {};
+      setShippingRates(rates);
+      setShippingDraft(rates);
+      setSelectedGovernorate((current) =>
+        current && rates[current] !== undefined
+          ? current
+          : Object.keys(rates)[0] || ""
+      );
     } catch (err) {
       console.error(
         "Shipping fetch error:",
@@ -99,6 +111,14 @@ function AdminOrders() {
     fetchOrders();
     fetchShippingRates();
   }, []);
+
+  useEffect(() => {
+    if (!loading && window.location.hash === "#shipping-settings") {
+      document
+        .getElementById("shipping-settings")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [loading]);
 
   const updateOrderStatus = async (
     orderId,
@@ -157,6 +177,7 @@ function AdminOrders() {
   const updateShippingRates = async () => {
     try {
       setShippingSaving(true);
+      setShippingSaveMessage("Saving...");
       setError("");
 
       const response = await fetch(
@@ -183,8 +204,11 @@ function AdminOrders() {
 
       setShippingRates(data.rates || {});
       setShippingDraft(data.rates || {});
+      setShippingDirty(false);
+      setShippingSaveMessage("Saved for new orders.");
       setError("");
     } catch (err) {
+      setShippingSaveMessage("");
       setError(
         err.message ||
           "Something went wrong while updating shipping rates."
@@ -307,7 +331,7 @@ function AdminOrders() {
             Products
           </a>
 
-          <a href="#" onClick={(event) => event.preventDefault()}>
+          <a href="/admin/orders#shipping-settings">
             <span>⌁</span>
             Shipping
           </a>
@@ -406,40 +430,61 @@ function AdminOrders() {
 
         <section className="admin-products-content">
 
-          <div className="admin-products-toolbar" style={{ marginBottom: "18px" }}>
+          <div
+            id="shipping-settings"
+            className="admin-products-toolbar"
+            style={{ marginBottom: "18px" }}
+          >
             <div className="admin-products-count">Shipping Settings</div>
           </div>
 
           <div className="admin-shipping-rates-panel">
-            <div className="admin-shipping-rates-grid">
-              {Object.entries(shippingDraft).map(([governorate, value]) => (
-                <label key={governorate} className="admin-shipping-rate-item">
-                  <span>{governorate}</span>
+              <div className="admin-shipping-rates-grid">
+                <label className="admin-shipping-rate-item">
+                  <span>Governorate</span>
+                  <select
+                    value={selectedGovernorate}
+                    onChange={(event) => {
+                      setSelectedGovernorate(event.target.value);
+                      setShippingSaveMessage("");
+                    }}
+                  >
+                    {Object.keys(shippingDraft).map((governorate) => (
+                      <option key={governorate} value={governorate}>
+                        {governorate.replace(/([a-z])([A-Z])/g, "$1 $2")}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="admin-shipping-rate-item">
+                  <span>Shipping price (EGP)</span>
                   <input
                     type="number"
                     min="0"
-                    value={value}
-                    onChange={(event) =>
+                    value={shippingDraft[selectedGovernorate] ?? ""}
+                    disabled={!selectedGovernorate || shippingSaving}
+                    onChange={(event) => {
                       setShippingDraft((current) => ({
                         ...current,
-                        [governorate]: Number(event.target.value) || 0,
-                      }))
-                    }
+                        [selectedGovernorate]: Number(event.target.value) || 0,
+                      }));
+                      setShippingDirty(true);
+                      setShippingSaveMessage("");
+                    }}
+                    onBlur={() => {
+                      if (shippingDirty) updateShippingRates();
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") event.currentTarget.blur();
+                    }}
                   />
                 </label>
-              ))}
-            </div>
+              </div>
 
-            <div className="admin-shipping-actions">
-              <button
-                type="button"
-                className="admin-add-product-button"
-                onClick={updateShippingRates}
-                disabled={shippingSaving}
-              >
-                {shippingSaving ? "Saving..." : "Save Shipping Rates"}
-              </button>
-            </div>
+              <div className="admin-shipping-actions" role="status" aria-live="polite">
+                {shippingSaving ? "Saving..." : shippingSaveMessage}
+              </div>
           </div>
 
           <div className="admin-products-toolbar">

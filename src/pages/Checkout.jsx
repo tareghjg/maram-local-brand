@@ -201,7 +201,7 @@ function Checkout({
     };
 
     fetchShippingRates();
-  }, []);
+  }, [formData.governorate]);
 
   const subtotal = cart.reduce(
     (total, item) =>

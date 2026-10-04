@@ -996,7 +996,7 @@ function AdminProducts() {
             Products
           </a>
 
-          <a href="#">
+          <a href="/admin/orders#shipping-settings">
             <span>⌂</span>
             Shipping
           </a>
