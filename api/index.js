@@ -6,6 +6,7 @@ const require = createRequire(import.meta.url);
 const connectDB = require("../server/config/db.js");
 const orderRoutes = require("../server/routes/orderRoutes.js");
 const productRoutes = require("../server/routes/productRoutes.js");
+const shippingRoutes = require("../server/routes/shippingRoutes.js");
 const uploadRoutes = require("../server/routes/uploadRoutes.js");
 
 export const config = {
@@ -55,6 +56,7 @@ apiRouter.get("/health", (req, res) => {
 
 apiRouter.use("/orders", orderRoutes);
 apiRouter.use("/products", productRoutes);
+apiRouter.use("/shipping", shippingRoutes);
 apiRouter.use("/upload", uploadRoutes);
 
 app.use("/api", apiRouter);
