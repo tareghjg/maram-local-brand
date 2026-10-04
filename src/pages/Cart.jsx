@@ -1,5 +1,6 @@
 import "./Cart.css";
 import { Link, useNavigate } from "react-router-dom";
+import { optimizedImageUrl } from "../utils/optimizedImageUrl";
 
 function Cart({
   language,
@@ -156,8 +157,10 @@ function Cart({
               >
                 <div className="cart-item-image">
                   <img
-                    src={item.image}
+                    src={optimizedImageUrl(item.image, 320)}
                     alt={item.name}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
 

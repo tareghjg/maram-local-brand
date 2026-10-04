@@ -1,6 +1,7 @@
 import "./ProductDetails.css";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { optimizedImageUrl } from "../utils/optimizedImageUrl";
 
 const API_URL = "/api/products";
 
@@ -180,18 +181,30 @@ function ProductDetails({
   }, [product]);
 
   const productSizes = useMemo(() => {
-    if (
-      !product ||
-      !Array.isArray(product.sizes)
-    ) {
-      return [];
+    const allowedSizes = ["X1", "2X", "3X"];
+
+    if (!product) {
+      return allowedSizes;
     }
 
-    return product.sizes
-      .map((size) =>
-        String(size).trim()
-      )
-      .filter(Boolean);
+    const sizes = Array.isArray(product.sizes)
+      ? product.sizes
+          .map((size) =>
+            String(size).trim()
+          )
+          .filter(Boolean)
+      : [];
+
+    const mergedSizes = [
+      ...allowedSizes,
+      ...sizes,
+    ].filter(
+      (size, index, all) =>
+        size &&
+        all.indexOf(size) === index
+    );
+
+    return mergedSizes;
   }, [product]);
 
   const productColors = useMemo(() => {
@@ -222,6 +235,21 @@ function ProductDetails({
         selectedColor
     );
 
+  const sizeDescriptions = {
+    "X1": {
+      en: "Up to 90 kg",
+      ar: "يلبس لحد 90 كيلو",
+    },
+    "2X": {
+      en: "Up to 115 kg",
+      ar: "يلبس لحد 115 كيلو",
+    },
+    "3X": {
+      en: "",
+      ar: "",
+    },
+  };
+
   const handlePreviousImage = () => {
     if (productImages.length <= 1) {
       return;
@@ -249,6 +277,16 @@ function ProductDetails({
 
   const handleAddToCart = () => {
     if (!product) {
+      return;
+    }
+
+    if (product.available === false) {
+      alert(
+        isArabic
+          ? "هذا المنتج غير متوفر حاليًا."
+          : "This product is currently out of stock."
+      );
+
       return;
     }
 
@@ -607,8 +645,11 @@ function ProductDetails({
           <div className="product-gallery">
             <div className="product-main-image">
               <img
-                src={selectedImageUrl}
+                src={optimizedImageUrl(selectedImageUrl, 1200)}
                 alt={getProductName()}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
 
               {productImages.length > 1 && (
@@ -663,10 +704,12 @@ function ProductDetails({
                       }`}
                     >
                       <img
-                        src={image}
+                        src={optimizedImageUrl(image, 240)}
                         alt={`${getProductName()} ${
                           index + 1
                         }`}
+                        loading="lazy"
+                        decoding="async"
                       />
                     </button>
                   )
@@ -689,6 +732,22 @@ function ProductDetails({
             <p className="product-details-price">
               {product.price} EGP
             </p>
+
+            <div
+              className={`stock-status ${
+                product.available === false
+                  ? "out-of-stock"
+                  : "in-stock"
+              }`}
+            >
+              {product.available === false
+                ? isArabic
+                  ? "غير متوفر"
+                  : "Out of Stock"
+                : isArabic
+                ? "متوفر"
+                : "Available"}
+            </div>
 
             <div className="product-divider"></div>
 
@@ -750,24 +809,44 @@ function ProductDetails({
 
                 <div className="size-options">
                   {productSizes.map(
-                    (size) => (
-                      <button
-                        key={size}
-                        className={`size-option ${
-                          selectedSize ===
+                    (size) => {
+                      const details =
+                        sizeDescriptions[
                           size
-                            ? "active"
-                            : ""
-                        }`}
-                        onClick={() =>
-                          setSelectedSize(
+                        ] || {
+                          en: size,
+                          ar: size,
+                        };
+
+                      return (
+                        <button
+                          key={size}
+                          className={`size-option ${
+                            selectedSize ===
                             size
-                          )
-                        }
-                      >
-                        {size}
-                      </button>
-                    )
+                              ? "active"
+                              : ""
+                          }`}
+                          onClick={() =>
+                            setSelectedSize(
+                              size
+                            )
+                          }
+                        >
+                          <span className="size-main">
+                            {size}
+                          </span>
+
+                          {(details.ar || details.en) && (
+                            <span className="size-caption">
+                              {isArabic
+                                ? details.ar
+                                : details.en}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    }
                   )}
                 </div>
               </div>
@@ -897,12 +976,23 @@ function ProductDetails({
             <button
               className={`add-to-cart-btn ${
                 added ? "added" : ""
+              } ${
+                product.available === false
+                  ? "disabled"
+                  : ""
               }`}
               onClick={
                 handleAddToCart
               }
+              disabled={
+                product.available === false
+              }
             >
-              {added
+              {product.available === false
+                ? isArabic
+                  ? "غير متوفر"
+                  : "OUT OF STOCK"
+                : added
                 ? isArabic
                   ? "تمت الإضافة ✓"
                   : "ADDED ✓"

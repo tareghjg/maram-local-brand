@@ -412,6 +412,10 @@
   cursor: pointer;
 }
 
+.product-card.out-of-stock {
+  opacity: 0.92;
+}
+
 
 /* =========================
    PRODUCT IMAGE
@@ -437,6 +441,34 @@
   object-fit: cover;
 
   transition: transform 0.6s ease;
+}
+
+.stock-overlay {
+  position: absolute;
+
+  left: 14px;
+
+  top: 14px;
+
+  z-index: 2;
+
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(52, 43, 38, 0.82);
+
+  color: #fff;
+
+  font-family: "Montserrat", Arial, sans-serif;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
 }
 
 .product-card:hover .product-image img {
@@ -525,6 +557,27 @@
   font-family: "Montserrat", Arial, sans-serif;
 
   font-size: 13px;
+}
+
+.stock-text {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #8f5d5d;
+
+  font-family: "Montserrat", Arial, sans-serif;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 1px;
+}
+
+.product-card.out-of-stock .product-info h3,
+.product-card.out-of-stock .product-info span {
+  opacity: 0.8;
 }
 
 

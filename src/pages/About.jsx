@@ -74,6 +74,9 @@ function About({ language, setLanguage }) {
             <img
               src="/image-212-e1741873750452-975x1024.png"
               alt={isArabic ? "إطلالة أزياء أنيقة" : "Elegant fashion look"}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             <figcaption>
               <span>{isArabic ? "إطلالة مرام" : "The MARAM look"}</span>
@@ -84,6 +87,8 @@ function About({ language, setLanguage }) {
             <img
               src="/3zaWgq4ZAQXlqIdaV3YKhW9yXlh5yT3W9qoSHFps.webp"
               alt={isArabic ? "تفاصيل قماش وملابس أنيقة" : "Refined fabric and clothing details"}
+              loading="lazy"
+              decoding="async"
             />
             <figcaption>
               <span>{isArabic ? "تفاصيل تصنع الفرق" : "Details that matter"}</span>

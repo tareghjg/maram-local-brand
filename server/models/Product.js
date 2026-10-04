@@ -45,7 +45,7 @@ const productSchema = new mongoose.Schema(
 
     sizes: {
       type: [String],
-      default: ["2X", "3X"],
+      default: ["X1", "2X", "3X"],
     },
 
     colors: [

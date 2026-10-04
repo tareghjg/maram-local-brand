@@ -5,7 +5,7 @@ const router = express.Router();
 
 const normalizeSizes = (sizes) => {
   if (!Array.isArray(sizes)) {
-    return ["2X", "3X"];
+    return ["X1", "2X", "3X"];
   }
 
   return sizes

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const API_URL = "/api/products";
 const UPLOAD_URL = "/api/upload";
 
-const DEFAULT_SIZES = ["2X", "3X"];
+const DEFAULT_SIZES = ["X1", "2X", "3X"];
 
 const emptyForm = {
   nameEn: "",
@@ -15,7 +15,7 @@ const emptyForm = {
   price: "",
   category: "Isdal",
   available: true,
-  sizes: ["2X", "3X"],
+  sizes: ["X1", "2X", "3X"],
   colors: [],
 };
 

@@ -1,6 +1,7 @@
 import "./Checkout.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { optimizedImageUrl } from "../utils/optimizedImageUrl";
 
 const API_URL = "/api/orders";
 const SHIPPING_API_URL = "/api/shipping";
@@ -1127,8 +1128,10 @@ function Checkout({
                 <div className="checkout-product-image">
 
                   <img
-                    src={item.image}
+                    src={optimizedImageUrl(item.image, 240)}
                     alt={item.name}
+                    loading="lazy"
+                    decoding="async"
                   />
 
                   <span>

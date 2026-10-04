@@ -1,6 +1,7 @@
 import "./Shop.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { optimizedImageUrl } from "../utils/optimizedImageUrl";
 
 const API_URL = "/api/products";
 
@@ -127,6 +128,14 @@ function Shop({ language, setLanguage }) {
   const isComingSoon =
     activeCategory !== "All" &&
     activeCategory !== "Isdal";
+
+  const getStockText = (product) => {
+    if (product?.available === false) {
+      return isArabic ? "غير متوفر" : "Out of Stock";
+    }
+
+    return isArabic ? "متوفر" : "Available";
+  };
 
   return (
     <div
@@ -382,55 +391,73 @@ function Shop({ language, setLanguage }) {
               ) : (
                 <div className="products-grid">
                   {sortedProducts.map(
-                    (product) => (
-                      <Link
-                        to={`/product/${product._id}`}
-                        className="product-card"
-                        key={product._id}
-                      >
-                        <div className="product-image">
-                          <img
-                            src={
-                              product.image
-                            }
-                            alt={getProductName(
-                              product
+                    (product, index) => {
+                      const outOfStock =
+                        product.available === false;
+
+                      return (
+                        <Link
+                          to={`/product/${product._id}`}
+                          className={`product-card ${
+                            outOfStock ? "out-of-stock" : ""
+                          }`}
+                          key={product._id}
+                        >
+                          <div className="product-image">
+                            <img
+                              src={optimizedImageUrl(product.image, 640)}
+                              alt={getProductName(
+                                product
+                              )}
+                              loading={index < 2 ? "eager" : "lazy"}
+                              fetchPriority={index === 0 ? "high" : "auto"}
+                              decoding="async"
+                            />
+
+                            {outOfStock && (
+                              <div className="stock-overlay">
+                                {isArabic
+                                  ? "غير متوفر"
+                                  : "Out of Stock"}
+                              </div>
                             )}
-                          />
 
-                          <button
-                            className="wishlist-btn"
-                            aria-label="Add to wishlist"
-                            onClick={(
-                              event
-                            ) =>
-                              event.preventDefault()
-                            }
-                          >
-                            ♡
-                          </button>
-                        </div>
+                            <button
+                              className="wishlist-btn"
+                              aria-label="Add to wishlist"
+                              onClick={(event) =>
+                                event.preventDefault()
+                              }
+                            >
+                              ♡
+                            </button>
+                          </div>
 
-                        <div className="product-info">
-                          <p>
-                            {isArabic
-                              ? "إسدال"
-                              : "ISDAL"}
-                          </p>
+                          <div className="product-info">
+                            <p>
+                              {isArabic
+                                ? "إسدال"
+                                : "ISDAL"}
+                            </p>
 
-                          <h3>
-                            {getProductName(
-                              product
-                            )}
-                          </h3>
+                            <h3>
+                              {getProductName(
+                                product
+                              )}
+                            </h3>
 
-                          <span>
-                            {product.price}{" "}
-                            EGP
-                          </span>
-                        </div>
-                      </Link>
-                    )
+                            <span>
+                              {product.price}{" "}
+                              EGP
+                            </span>
+
+                            <small className="stock-text">
+                              {getStockText(product)}
+                            </small>
+                          </div>
+                        </Link>
+                      );
+                    }
                   )}
                 </div>
               )}
